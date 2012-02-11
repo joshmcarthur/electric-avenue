@@ -19,11 +19,12 @@ jobs.process('encoding', (encoding, done) ->
   fs.rename(old_path, new_path, (err) =>
     # Update the encoding before we start encoding. This ensures that
     # we can still remove the file, and the encoder will just fail - this is ok.
+    throw error if err
     encoding.data.path = new_path
     encoding.save()
 
     new ffmpeg(new_path)
-    .usingPreset('divx')
+    .usingPreset(encoding.data.encoding_options.preset)
     .onProgress( (progress) =>
       encoding.progress(
         helpers.Helpers.friendlyTimeToSecs(progress.time)
@@ -31,17 +32,18 @@ jobs.process('encoding', (encoding, done) ->
       )
     )
     .saveToFile(encoded_path, (return_code, error) ->
-      fs.unlink(new_path, (err) ->
-        throw err if err
-        fs.stat(encoded_path, (err, stats) ->
+      if (return_code)
+        fs.unlink(new_path, (err) ->
           throw err if err
-          encoding.data.filesize = stats.size
-          encoding.data.path = encoded_path
-          encoding.data.link = "/file/#{encoding.id}"
-          encoding.save()
-          done()
+          fs.stat(encoded_path, (err, stats) ->
+            throw err if err
+            encoding.data.filesize = stats.size
+            encoding.data.path = encoded_path
+            encoding.data.link = "/file/#{encoding.id}"
+            encoding.save()
+            done()
+          )
         )
-      )
     )
   )
 )
