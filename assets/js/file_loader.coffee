@@ -35,11 +35,11 @@ class FileLoader
       )
       .append(
         $("<div></div>", {class: 'row'}).append(
-          $("<div></div>", {class: 'span9'}).append(
+          $("<div></div>", {class: 'span6'}).append(
             $("<h3></h3>", {class: 'filename'})
           )
         ).append(
-          $("<div></div>", {class: 'span2'}).append(
+          $("<div></div>", {class: 'span6'}).append(
             $("<h3></h3>", {class: 'filesize'})
           )
         )
@@ -71,7 +71,14 @@ class FileLoader
     upload.onprogress = this.updateProgressBar
 
     data = new FormData()
-    data.append("files", file) for file in @files
+    data.append(
+      "files",
+      file
+    ) for file in @files
+    data.append(
+      "encoding_options[preset]",
+      $('form#uploader select#encoding_preset').val()
+    )
 
     @request.open(@options.method, @options.url, true)
 
