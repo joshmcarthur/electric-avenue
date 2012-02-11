@@ -42,9 +42,17 @@ class JobMonitor
   clearCollection: ->
     @collection.find('tbody tr').remove()
 
+  encodingTitle: (data) ->
+    if data.link
+      $('<td></td>').append(
+        $('<a></a>', { href: data.link }).text( data.title )
+      )
+    else
+      $('<td></td>').text(data.title)
+
   addToCollection: (encoding) ->
     row = $('<tr></tr>').append(
-      $('<td></td>').html(encoding.data.title)
+      this.encodingTitle(encoding.data)
       $('<td></td>').text(encoding.data.created_at)
       $('<td></td>').text(Helpers.bytesToSize(encoding.data.filesize))
       $('<td></td>').html(
