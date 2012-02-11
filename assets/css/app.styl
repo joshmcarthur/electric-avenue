@@ -1,0 +1,77 @@
+@import 'nib'
+
+body
+  padding-top: 20px
+
+.btn.primary
+  font-weight: bold
+
+.span12.well
+  padding: 19px 0
+
+footer.footer
+  margin-top: 45px
+  border-top: solid 1px #EEE
+  padding-top: 35px
+
+.add-icon
+  text-align: center;
+  font-size: 12em
+  line-height: 0.9em
+  color: #08C
+
+.add-icon + p
+  text-align: center;
+  font-size: 1.5em;
+
+tr.empty > td
+  text-align: center;
+  font-weight: bold
+
+a#title
+  color: #69D2E7;
+  text-shadow: 0px 0px 10px white;
+
+#filetarget
+  transition: background-color 0.2s linear, width 0.2s linear
+  position: relative
+  z-index: 10
+
+  #fileupload
+    margin: 25px 15px
+
+#filetarget.ready-to-drop
+  background-color: #08C
+  *
+    color: #FFF !important
+
+#files
+  margin-top: -25px
+  border-color: #3A87AD
+  border-top: none
+  background-color: #D9EDF7
+
+  legend
+    border-bottom: none
+
+  table tbody tr td
+    border-top: none
+
+
+
+.attributes
+  .label
+    margin-right: 10px
+
+  a:after
+    content: '\00A0\2219\00A0'
+
+  a:last-child
+    content: ''
+
+  line-height: 25px
+
+h2
+  smooth-button()
+  width: 90%
+  font-size: 2em

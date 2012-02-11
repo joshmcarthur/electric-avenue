@@ -1,0 +1,45 @@
+!!! 5
+//if lt IE 7 ]><html class="ie ie6" lang="en">
+//if IE 7 ]><html class="ie ie7" lang="en">
+//if IE 8 ]><html class="ie ie8" lang="en">
+// [if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]
+head
+  meta(charset='utf-8')
+  title Electric Avenue
+  meta(name='description', content='')
+  meta(name='author', content='')
+  // Mobile Specific
+  meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+  // CSS
+  != js('modernizr.min.js')
+  != css('bootstrap.min')
+  != css('bootstrap-responsive.min')
+  != css('app')
+
+body
+  .container
+    .navbar
+      .navbar-inner
+        .container
+          a#title.brand(href="/") Electric Avenue
+
+    != body
+
+    footer.footer.row
+      .span10.attributes
+        span.label Built using:
+        a(href='http://twitter.github.com/bootstrap') Twitter Bootstrap 2.0
+        a(href='http://coffeescript.org') Coffeescript
+        a(href='https://github.com/LearnBoost/kue') Kur
+        a(href='http://expressjs.com') ExpressJS
+        a(href='http://jquery.com') jQuery
+      .span2.follow
+        | <a href="https://twitter.com/sudojosh" class="twitter-follow-button" data-show-count="false">Follow @sudojosh</a>
+        | <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+  != js('https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+  script(src="/socket.io/socket.io.js")
+  != js('app')
+
+| </html>

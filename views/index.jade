@@ -1,0 +1,34 @@
+.row
+  .span12.well#filetarget
+.row
+  #files.span10.offset1.well(style="display:none;")
+    form#uploader.form-horizontal
+      fieldset
+        legend Files
+        table.table
+          tbody
+        p.btn-group
+          input.btn.primary(data-loading-text="Uploading...", type="submit", value="Upload Files")
+          input.btn(type="reset", value="Clear")
+
+.row
+  .span12
+    table#encodings.table.table-striped
+      thead
+        tr
+          th Video
+          th Added
+          th Size
+          th Status
+          th More
+          th
+      tbody
+        tr.empty
+          td(colspan="6") (Loading queue...)
+
+#templates(style="display:none;")
+  #new_upload
+    .placeholder
+      .add-icon +
+      p Drag-and-drop your video file here to add to the encoding queue
+
