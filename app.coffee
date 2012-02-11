@@ -1,6 +1,7 @@
 express   = require 'express'
 socketio  = require 'socket.io'
 fs        = require 'fs'
+Preset    = require './lib/preset'
 stylus    = require 'stylus'
 assets    = require 'connect-assets'
 kue       = require 'kue'
@@ -15,13 +16,28 @@ io = socketio.listen(app)
 app.use assets()
 app.use express.bodyParser(
   keepExtensions: true
-  uploadDir: "#{__dirname}/public/queued"
+  uploadDir: "#{__dirname}/tmp/queued"
 )
 
 app.set 'view engine', 'jade'
 
 
 app.get '/', (req, resp) -> resp.render 'index'
+
+app.get '/presets', (req, resp) ->
+  pres = []
+  pres.push(preset) for preset in Preset.all()
+  resp.send(pres)
+
+
+app.get '/file/:id', (req, resp) ->
+  # Serve the file back as a 'download'
+  console.log(req.params.id.split('.')[0])
+  Job.get(req.params.id.split('.')[0], (error, job) ->
+    return resp.send('File not found', 404) unless job
+    resp.download(job.data.path, job.data.title)
+  )
+
 app.post '/file', (req, resp) ->
   # Save file to the filesystem, returning path
   # Parse options to JSON
