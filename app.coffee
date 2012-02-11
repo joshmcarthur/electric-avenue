@@ -1,15 +1,16 @@
 express   = require 'express'
 socketio  = require 'socket.io'
 fs        = require 'fs'
-Preset    = require './lib/preset'
 stylus    = require 'stylus'
 assets    = require 'connect-assets'
 kue       = require 'kue'
-Job       = require 'kue/lib/queue/job'
-encoding  = require './lib/encoding'
+Encoding  = require './lib/encoding'
 query = require './lib/kue_query'
 jobs      = kue.createQueue()
 kue_query = new query.KueQuery(jobs)
+Resource  = require 'express-resource'
+Job       = require 'kue/lib/queue/job'
+Preset    = require './lib/preset'
 
 app = express.createServer()
 io = socketio.listen(app)
@@ -18,21 +19,16 @@ app.use express.bodyParser(
   keepExtensions: true
   uploadDir: "#{__dirname}/tmp/queued"
 )
+app.use express.methodOverride()
 
 app.set 'view engine', 'jade'
+app.set 'views'      , "#{__dirname}/app/views"
+app.get '/', (req, resp) -> resp.render 'index', { presets: Preset.all() }
 
-
-app.get '/', (req, resp) -> resp.render 'index'
-
-app.get '/presets', (req, resp) ->
-  pres = []
-  pres.push(preset) for preset in Preset.all()
-  resp.send(pres)
-
+app.resource('presets', require('./app/resources/presets'))
 
 app.get '/file/:id', (req, resp) ->
   # Serve the file back as a 'download'
-  console.log(req.params.id.split('.')[0])
   Job.get(req.params.id.split('.')[0], (error, job) ->
     return resp.send('File not found', 404) unless job
     resp.download(job.data.path, job.data.title)
@@ -48,7 +44,7 @@ app.post '/file', (req, resp) ->
   files = [files] unless files instanceof Array
   results = []
   results.push(
-    new encoding.Encoding(file, req.params['options']).enqueue_onto(jobs)
+    new Encoding(file, req.param('encoding_options')).enqueue_onto(jobs)
   ) for file in files
 
   resp.send(results)
