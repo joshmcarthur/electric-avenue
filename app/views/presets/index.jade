@@ -1,0 +1,43 @@
+.page-header
+  h1 Presets&nbsp;
+    small Manage encoding settings for audio, video and processing
+
+  form(action="/presets", method="post").form-vertical
+    fieldset
+      .row
+        legend.span12 Add a Preset
+      .row.clearfix
+        .span4
+          .control-group
+            label(for="name") Preset Name
+            .controls
+              input(type="text", name="name", placeholder="new_preset")
+        .span8
+          .control-group
+            label(for="contents") Preset
+            .controls
+              textarea#preset_contents.well(name="contents", rows="15")
+      .form-actions
+        button(type="submit").btn.btn-primary Save Preset
+        button(type="reset").btn Cancel
+
+  hr
+
+  table.table
+    thead
+      tr
+        th Filename
+        th Encoding Rules
+    tbody
+      each preset in presets
+        tr
+          td
+            span.label.label-info= preset.filename
+            form(action="/presets/#{preset.name}", method="post")
+              input(type="hidden", name="_method", value="DELETE")
+              button.btn.btn-danger.btn-small.preset-delete(type="submit") Delete
+          td
+            pre= preset.contents
+
+
+

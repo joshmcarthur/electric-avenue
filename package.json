@@ -17,6 +17,7 @@
     , "kue": "*"
     , "socket.io": "*"
     , "fluent-ffmpeg": "git://github.com/joshmcarthur/node-fluent-ffmpeg.git#edfdb9d3d039651502ee71623557e29236b5fc0e"
+    , "express-resource": "*"
   }
   , "scripts": {
     "test": "mocha"

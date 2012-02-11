@@ -13,7 +13,7 @@ class Preset
     @presets[filename]
 
   create: (filename, contents) ->
-    fs.writeFile(path.join(preset_dir, filename), contents, 'utf-8', ->
+    fs.writeFile(path.join(preset_dir, filename), contents, 'utf-8', =>
       this.readPresets()
     )
 
@@ -21,7 +21,7 @@ class Preset
     this.create(filename, contents)
 
   delete: (filename) ->
-    fs.unlink(path.join(preset_dir, filename), ->
+    fs.unlink(path.join(preset_dir, filename), =>
       this.readPresets()
     )
 
@@ -34,6 +34,7 @@ class Preset
           fs.readFile path.join(preset_dir, filename), (error, contents) =>
             throw error if error
             @presets.push({
+              name: path.basename(filename, '.js')
               filename: filename
               contents: contents.toString()
             })
