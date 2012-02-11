@@ -2,11 +2,18 @@
   .span12.well#filetarget
 .row
   #files.span10.offset1.well(style="display:none;")
-    form#uploader.form-horizontal
+    form#uploader.form-vertical
       fieldset
-        legend Files
+        legend Files to be Uploaded
         table.table
           tbody
+        .control-group
+          label(for="encoding_options[preset]") Encoding setting:
+          .controls
+            select#encoding_preset(name="encoding_options[preset]")
+              each preset in presets
+                option(value="#{preset.name}")= preset.name
+
         p.btn-group
           input.btn.primary(data-loading-text="Uploading...", type="submit", value="Upload Files")
           input.btn(type="reset", value="Clear")

@@ -21,8 +21,11 @@ body
   .container
     .navbar
       .navbar-inner
-        .container
+        .container(style="width:auto;")
           a#title.brand(href="/") Electric Avenue
+          ul.nav.pull-right
+            li
+              a(href="/presets") Presets
 
     != body
 
