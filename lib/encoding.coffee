@@ -1,6 +1,8 @@
 class Encoding
   constructor: (@file, @options) ->
-    @options = {} unless @options
+    @options = {
+      'preset': 'divx'
+    } unless @options
 
   enqueue_onto: (queue) ->
     @job = queue.create('encoding', this.toJSON(false)).save()
@@ -18,4 +20,4 @@ class Encoding
 
     if return_string then return JSON.stringify(@json) else return @json
 
-exports.Encoding = Encoding
+module.exports = exports = Encoding
