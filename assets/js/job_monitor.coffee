@@ -73,7 +73,6 @@ class JobMonitor
           $(this).popover()
         )
         .click((event) ->
-          console.log("hit")
           event.stopPropagation()
           event.preventDefault()
 
