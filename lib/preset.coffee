@@ -31,6 +31,7 @@ class Preset
     fs.readdir(preset_dir, (err, files) =>
       for filename in files
         do (filename) =>
+          next if path.extname(filename) is not '.js'
           fs.readFile path.join(preset_dir, filename), (error, contents) =>
             throw error if error
             @presets.push({

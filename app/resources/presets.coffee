@@ -11,7 +11,7 @@ exports.index = (req, resp) ->
       resp.render 'presets/index', {presets: @presets}
 
 exports.create = (req, resp) ->
-  preset_name = req.param('name').replace(/\.js/, '').concat('.js')
+  preset_name = req.param('name').replace(/\.js/, '').concat('.js') if req.param('name')
   contents = req.param('contents')
   return resp.send("Missing params", 406) unless preset_name and contents
   Preset.create(preset_name, contents)
