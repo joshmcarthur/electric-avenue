@@ -9,6 +9,11 @@ body
 .span12.well
   padding: 19px 0
 
+.spinner
+  position: absolute
+  left: 50%
+
+
 .preset-delete
   margin-top: 5px;
   height: 20px;
@@ -34,6 +39,12 @@ footer.footer
   text-align: center;
   font-size: 1.5em;
 
+form#new_file, form#new_file input
+  position: absolute
+  top: -1000px
+  opacity: 0
+  margin: 0
+
 tr.empty > td
   text-align: center;
   font-weight: bold
@@ -46,9 +57,15 @@ a#title
   transition: background-color 0.2s linear, width 0.2s linear
   position: relative
   z-index: 10
+  cursor: pointer
 
   #fileupload
     margin: 25px 15px
+    min-height: 50px
+
+    p
+      text-align: center
+      padding-top: 50px
 
 #filetarget.ready-to-drop
   background-color: #08C

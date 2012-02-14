@@ -9,7 +9,7 @@ class JobMonitor
 
     @socket.on('encodings_response', (data) =>
       this.clearCollection()
-      if (data.length > 0)
+      if (data and data.length > 0)
         this.addToCollection(encoding) for encoding in data
       else
         this.collectionIsEmpty()

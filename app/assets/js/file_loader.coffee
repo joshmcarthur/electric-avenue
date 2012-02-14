@@ -5,7 +5,11 @@ class FileLoader
     # Add filename textbox
     # Fire off upload
     this.addFile(file) for file in @options.files
-    @container = this.build_container()
+    if window.XMLHttpRequestUpload
+      @container = this.build_progress()
+    else
+      @container = this.build_spinner()
+
     @element   = options.element
     this.addToFileList(@options.fileListElement, file) for file in @files
 
@@ -20,13 +24,31 @@ class FileLoader
       .addClass('file')
       .data({file: file})
       .append(
-        $('<td></td>').text("#{file.fileName} (#{Helpers.bytesToSize(file.size)})")
+        $('<td></td>').text("#{file.name} (#{Helpers.bytesToSize(file.size)})")
       )
     )
     list_el.show() if list_el.is(":hidden")
 
+  build_spinner: ->
+    spinner = $("<div></div>").addClass('spinner').spin({
+      lines: 12,
+      length: 7,
+      width: 4,
+      radius: 10,
+      color: '#000',
+      speed: 0.9,
+      trail: 60,
+      shadow: false,
+      hwaccel: false
+    })
 
-  build_container: ->
+    $("<div></div>", {id: 'fileupload'})
+      .append(spinner)
+      .append(
+        $("<p></p>").text("Uploading files. Please wait, this will take some time.")
+      )
+
+  build_progress: ->
     $("<div></div>", {id: 'fileupload'})
       .append(
         $("<div></div>", {class: 'progress progress-info progress-striped active'}).append(
@@ -68,7 +90,9 @@ class FileLoader
     @request = new XMLHttpRequest()
     @request.onreadystatechange = this.completeLoad
     upload  = @request.upload
-    upload.onprogress = this.updateProgressBar
+
+    if upload
+      upload.onprogress = this.updateProgressBar
 
     data = new FormData()
     data.append(

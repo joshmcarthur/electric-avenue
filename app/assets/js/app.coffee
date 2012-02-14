@@ -2,7 +2,9 @@
 #= require file_loader
 #= require job_monitor
 #= require bootstrap.min.js
+#= require spin.min.js
 #= require jquery.tmpl.min.js
+#= require jquery.spinjs.js
 #= require bootstrap-tooltip.js
 #= require bootstrap-popover.js
 #= require bootstrap-button.js
@@ -26,7 +28,14 @@ resetUpload = ->
     $(this).removeClass('ready-to-drop')
     event.preventDefault()
     return false
-  .bind 'drop', uploadFiles
+  .bind 'drop', (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+
+    uploadFiles(event.dataTransfer.files)
+  .bind 'click', (event) ->
+    el = $('form#new_file input[type=file]')
+    el.click()
 
   $('#files').hide()
   $('form#uploader input').attr('disabled', false)
@@ -36,14 +45,14 @@ resetUpload = ->
 getTemplate = (template_name) ->
   $("#templates ##{template_name}").html()
 
-uploadFiles = (event) ->
-  event.preventDefault()
-  event.stopPropagation()
-  $(this).removeClass('ready-to-drop')
+uploadFiles = (files) ->
+  files = [files] if $.browser.msie
+  el = $('#filetarget')
+  el.removeClass('ready-to-drop')
   window.file_loader = new FileLoader(
-    files: event.dataTransfer.files
+    files: files
     fileListElement: $('#files')
-    element: $(this).find('.placeholder')
+    element: el.find('.placeholder')
     method: 'POST'
     url: 'http://localhost:4000/file'
     callback: uploadSuccess
@@ -58,7 +67,23 @@ bindPopover = ->
     title: 'Encoding Settings'
   )
 
+
 bindFileUpload = ->
+  input = $('form#new_file input[type=file]')
+  if $.browser.firefox
+    input.hide()
+  if ($.browser.msie)
+    input.click( (event) ->
+      setTimeout(->
+        uploadFiles($(this)[0].files)
+      ,
+      0)
+    )
+  else
+    input.change(->
+      uploadFiles($(this)[0].files)
+    )
+
   $('form#uploader')
   .bind('reset', (event) ->
     event.stopPropagation()
