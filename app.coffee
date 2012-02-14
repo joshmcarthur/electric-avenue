@@ -14,7 +14,7 @@ Preset    = require './lib/preset'
 
 app = express.createServer()
 io = socketio.listen(app)
-app.use assets()
+app.use assets({ src: 'app/assets' })
 app.use express.bodyParser(
   keepExtensions: true
   uploadDir: "#{__dirname}/tmp/queued"
