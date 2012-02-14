@@ -65,19 +65,21 @@ describe "Electric Avenue Application", ->
       whenPageHasLoaded('/presets', (browser) ->
         for row in browser.queryAll('table#presets tbody tr')
           do (row) ->
-            expect(browser.query('form[action^="/presets/"] button.btn')).toBeDefined()
+            expect(browser.query('form[action^="/presets/"] input[type=submit].btn')).toBeDefined()
         jasmine.asyncSpecDone()
       )
 
   describe "POST /presets", ->
     it "submits the form on the index page and creates a preset", ->
       whenPageHasLoaded('/presets', (browser) ->
-        browser.fill('#preset_name', test_preset_name)
-        browser.fill('contents', testPresetContent())
-        browser.pressButton('Save Preset', ->
-          expect(browser.success).toBeTruthy()
-          expect(browser.location.pathname).toEqual("/presets")
-          expect(browser.html('table#presets tbody tr')).toMatch(/test_preset/)
+        browser.fill('name', test_preset_name, ->
+          browser.fill('contents', testPresetContent(), ->
+            browser.pressButton('form#new_preset input[type=submit]', ->
+              expect(browser.success).toBeTruthy()
+              expect(browser.location.pathname).toEqual("/presets")
+              expect(browser.html('table#presets tbody tr')).toMatch(/test_preset/)
+            )
+          )
         )
 
         jasmine.asyncSpecDone()
@@ -88,7 +90,7 @@ describe "Electric Avenue Application", ->
       whenPageHasLoaded('/presets', (browser) ->
         jasmine.asyncSpecDone()
         browser.fill('contents', testPresetContent())
-        browser.pressButton('Save Preset', ->
+        browser.pressButton('form#new_preset input[type=submit]', ->
           expect(browser.statusCode).toEqual(406)
         )
       )
@@ -105,16 +107,12 @@ describe "Electric Avenue Application", ->
 
   describe "DELETE /preset/:preset", ->
     it "deletes the preset", ->
-      test_file_name = 'test_preset.js'
       whenPageHasLoaded('/presets', (browser) ->
         jasmine.asyncSpecDone()
-        button = browser.button("form[action='/presets/#{test_preset_name}'] button")
-        expect(button).toBeDefined()
-        if button
-          browser.pressButton(button, ->
-            expect(browser.location.pathname).toEqual("/presets")
-            expect(browser.html("table#presets tbody tr")).toMatch(new RegExp(test_preset_name))
-          )
+        browser.pressButton("input##{test_preset_name}_delete", ->
+          expect(browser.location.pathname).toEqual("/presets")
+          expect(browser.html("table#presets tbody tr")).toMatch(new RegExp(test_preset_name))
+        )
       )
 
 

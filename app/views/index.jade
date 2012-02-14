@@ -32,10 +32,11 @@
       tbody
         tr.empty
           td(colspan="6") (Loading queue...)
-
+form#new_file
+  input(type="file", name="file")
 #templates(style="display:none;")
   #new_upload
     .placeholder
       .add-icon +
-      p Drag-and-drop your video file here to add to the encoding queue
+        p Drag-and-drop your video file, or click here to add to the encoding queue
 
