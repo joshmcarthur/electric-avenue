@@ -32,18 +32,17 @@ jobs.process('encoding', (encoding, done) ->
       )
     )
     .saveToFile(encoded_path, (return_code, error) ->
-      if (return_code)
-        fs.unlink(new_path, (err) ->
+      fs.unlink(new_path, (err) ->
+        throw err if err
+        fs.stat(encoded_path, (err, stats) ->
           throw err if err
-          fs.stat(encoded_path, (err, stats) ->
-            throw err if err
-            encoding.data.filesize = stats.size
-            encoding.data.path = encoded_path
-            encoding.data.link = "/file/#{encoding.id}"
-            encoding.save()
-            done()
-          )
+          encoding.data.filesize = stats.size
+          encoding.data.path = encoded_path
+          encoding.data.link = "/file/#{encoding.id}"
+          encoding.save()
+          done()
         )
+      )
     )
   )
 )
