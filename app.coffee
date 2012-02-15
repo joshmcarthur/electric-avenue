@@ -1,16 +1,17 @@
-express   = require 'express'
-socketio  = require 'socket.io'
-fs        = require 'fs'
-stylus    = require 'stylus'
-assets    = require 'connect-assets'
-kue       = require 'kue'
 Encoding  = require './lib/encoding'
-query = require './lib/kue_query'
-jobs      = kue.createQueue()
-kue_query = new query.KueQuery(jobs)
 Resource  = require 'express-resource'
 Job       = require 'kue/lib/queue/job'
 Preset    = require './lib/preset'
+KueQuery  = require './lib/kue_query'
+
+fs        = require 'fs'
+express   = require 'express'
+socketio  = require 'socket.io'
+kue       = require 'kue'
+stylus    = require 'stylus'
+assets    = require 'connect-assets'
+jobs      = kue.createQueue()
+kue_query = new KueQuery(jobs)
 
 app = express.createServer()
 io = socketio.listen(app)
