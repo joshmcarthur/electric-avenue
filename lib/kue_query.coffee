@@ -29,4 +29,4 @@ class KueQuery
       )
     )
 
-exports.KueQuery = KueQuery
+module.exports = exports = KueQuery
