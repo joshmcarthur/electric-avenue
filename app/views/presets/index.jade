@@ -1,39 +1,42 @@
-.page-header
-  h1 Presets&nbsp;
-    small Manage encoding settings for audio, video and processing
+extends ../layout
 
-form#new_preset(action="/presets", method="post").form-vertical
-  fieldset
-    .row
-      legend.span12 Add a Preset
-    .row.clearfix
-      .span4
-        .control-group
-          label(for="name") Preset Name
-          .controls
-            input#preset_name(type="text", name="name", placeholder="new_preset")
-      .span8
-        .control-group
-          label(for="contents") Preset
-          .controls
-            textarea#preset_contents.well(name="contents", rows="15")
-    .form-actions
-      input(type="submit", value="Save Preset").btn.btn-primary
-      input(type="reset", value="Cancel").btn
+block content
+  .page-header
+    h1 Presets&nbsp;
+      small Manage encoding settings for audio, video and processing
+
+  form#new_preset(action="/presets", method="post").form-vertical
+    fieldset
+      .row
+        legend.span12 Add a Preset
+      .row.clearfix
+        .span4
+          .control-group
+            label(for="name") Preset Name
+            .controls
+              input#preset_name(type="text", name="name", placeholder="new_preset")
+        .span8
+          .control-group
+            label(for="contents") Preset
+            .controls
+              textarea#preset_contents.well(name="contents", rows="15")
+      .form-actions
+        input(type="submit", value="Save Preset").btn.btn-primary
+        input(type="reset", value="Cancel").btn
 
 
-table#presets.table
-  thead
-    tr
-      th Filename
-      th Encoding Rules
-  tbody
-    each preset in presets
+  table#presets.table
+    thead
       tr
-        td
-          span.label.label-info= preset.filename
-          form(action="/presets/#{preset.name}", method="post")
-            input(type="hidden", name="_method", value="DELETE")
-            input(id="#{preset.name}_delete", type="submit", value="Delete").btn.btn-danger.btn-small.preset-delete
-        td
-          pre= preset.contents
+        th Filename
+        th Encoding Rules
+    tbody
+      each preset in presets
+        tr
+          td
+            span.label.label-info= preset.filename
+            form(action="/presets/#{preset.name}", method="post")
+              input(type="hidden", name="_method", value="DELETE")
+              input(id="#{preset.name}_delete", type="submit", value="Delete").btn.btn-danger.btn-small.preset-delete
+          td
+            pre= preset.contents

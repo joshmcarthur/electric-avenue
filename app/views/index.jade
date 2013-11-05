@@ -1,42 +1,45 @@
-.row
-  .span12.well#filetarget
-.row
-  #files.span10.offset1.well(style="display:none;")
-    form#uploader.form-vertical
-      fieldset
-        legend Files to be Uploaded
-        table.table
-          tbody
-        .control-group
-          label(for="encoding_options[preset]") Encoding setting:
-          .controls
-            select#encoding_preset(name="encoding_options[preset]")
-              each preset in presets
-                option(value="#{preset.name}")= preset.name
+extends layout
 
-        p.btn-group
-          input.btn.primary(data-loading-text="Uploading...", type="submit", value="Upload Files")
-          input.btn(type="reset", value="Clear")
+block content
+  .row
+    .span12.well#filetarget
+  .row
+    #files.span10.offset1.well(style="display:none;")
+      form#uploader.form-vertical
+        fieldset
+          legend Files to be Uploaded
+          table.table
+            tbody
+          .control-group
+            label(for="encoding_options[preset]") Encoding setting:
+            .controls
+              select#encoding_preset(name="encoding_options[preset]")
+                each preset in presets
+                  option(value="#{preset.name}")= preset.name
 
-.row
-  .span12
-    table#encodings.table.table-striped
-      thead
-        tr
-          th Video
-          th Added
-          th Size
-          th Status
-          th More
-          th
-      tbody
-        tr.empty
-          td(colspan="6") (Loading queue...)
-form#new_file
-  input(type="file", name="file")
-#templates(style="display:none;")
-  #new_upload
-    .placeholder
-      .add-icon +
-        p Drag-and-drop your video file, or click here to add to the encoding queue
+          p.btn-group
+            input.btn.primary(data-loading-text="Uploading...", type="submit", value="Upload Files")
+            input.btn(type="reset", value="Clear")
+
+  .row
+    .span12
+      table#encodings.table.table-striped
+        thead
+          tr
+            th Video
+            th Added
+            th Size
+            th Status
+            th More
+            th
+        tbody
+          tr.empty
+            td(colspan="6") (Loading queue...)
+  form#new_file
+    input(type="file", name="file")
+  #templates(style="display:none;")
+    #new_upload
+      .placeholder
+        .add-icon +
+          p Drag-and-drop your video file, or click here to add to the encoding queue
 
