@@ -6,6 +6,7 @@ KueQuery  = require './lib/kue_query'
 
 fs        = require 'fs'
 express   = require 'express'
+http      = require 'http'
 socketio  = require 'socket.io'
 kue       = require 'kue'
 stylus    = require 'stylus'
@@ -13,8 +14,10 @@ assets    = require 'connect-assets'
 jobs      = kue.createQueue()
 kue_query = new KueQuery(jobs)
 
-app = express.createServer()
-io = socketio.listen(app)
+app = express()
+server = http.createServer(app)
+io = socketio.listen(server)
+
 app.use assets({ src: 'app/assets' })
 app.use express.bodyParser(
   keepExtensions: true
@@ -71,4 +74,4 @@ io.sockets.on('connection', (socket) =>
 )
 
 kue.app.listen(4001)
-app.listen process.env.VMC_APP_PORT or 4000, -> console.log 'Listening...'
+server.listen process.env.VMC_APP_PORT or 4000, -> console.log 'Listening...'
