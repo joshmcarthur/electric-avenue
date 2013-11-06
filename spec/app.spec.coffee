@@ -1,4 +1,3 @@
-jasmine        = require('jasmine-node')
 Browser        = require('zombie')
 encoding_queue = require('kue').createQueue()
 host           = 'http://localhost:4000'
@@ -15,20 +14,20 @@ describe "Electric Avenue Application", ->
     it "loads a page", ->
       whenPageHasLoaded("/", (browser) ->
         expect(browser.success).toBeTruthy()
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
       )
 
     it "has correct title", ->
       whenPageHasLoaded("/", (browser) ->
         expect(browser.text('a#title')).toEqual('Electric Avenue')
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
       )
 
     it "has somewhere to upload files", ->
       whenPageHasLoaded("/", (browser) ->
         browser.wait(2000, ->
           expect(browser.text('#filetarget .placeholder p')).toMatch(/Drag-and-drop your video file/)
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
         )
       )
 
@@ -36,7 +35,7 @@ describe "Electric Avenue Application", ->
       whenPageHasLoaded("/", (browser) ->
         browser.wait(2000, ->
           expect(browser.text('table#encodings tbody tr')).toMatch(/No encodings/)
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
         )
       )
 
@@ -46,7 +45,7 @@ describe "Electric Avenue Application", ->
           browser.wait(1000, ->
             browser.fire('change', browser.query('input[name=file]'), ->
               expect(browser.text('#uploader table tr')).toMatch(/video\.avi/)
-              jasmine.asyncSpecDone()
+              # jasmine.asyncSpecDone()
             )
           )
         )
@@ -64,25 +63,25 @@ describe "Electric Avenue Application", ->
     it "loads a page", ->
       whenPageHasLoaded("/presets", (browser) ->
         expect(browser.success).toBeTruthy()
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
       )
 
     it "lists presets", ->
       whenPageHasLoaded("/presets", (browser) ->
         expect(browser.queryAll('table#presets tbody tr').length).toBeGreaterThan(0)
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
       )
 
     it "has a form to make a new preset", ->
       whenPageHasLoaded("/presets", (browser) ->
         expect(browser.query('form[action=/presets]')).toBeDefined()
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
       )
 
 
     it "has a button to delete each preset", ->
       whenPageHasLoaded('/presets', (browser) ->
-        jasmine.asyncSpecDone()
+        # jasmine.asyncSpecDone()
         for row in browser.queryAll('table#presets tbody tr')
           do (row) ->
             expect(browser.query('form[action^="/presets/"] input[type=submit].btn')).toBeDefined()
@@ -95,7 +94,7 @@ describe "Electric Avenue Application", ->
         .fill('name', test_preset_name)
         .fill('contents', testPresetContent())
         .pressButton('Save Preset', ->
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
           expect(browser.success).toBeTruthy()
           expect(browser.location.pathname).toEqual("/presets")
           expect(browser.html('table#presets tbody tr')).toMatch(new RegExp(test_preset_name))
@@ -109,7 +108,7 @@ describe "Electric Avenue Application", ->
         .fill('contents', testPresetContent())
         .pressButton('Save Preset', ->
           expect(browser.statusCode).toEqual(406)
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
         )
       )
 
@@ -120,7 +119,7 @@ describe "Electric Avenue Application", ->
         .fill('contents', null)
         .pressButton('Save Preset', ->
           expect(browser.statusCode).toEqual(406)
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
         )
       )
 
@@ -130,7 +129,7 @@ describe "Electric Avenue Application", ->
         browser.pressButton("input##{test_preset_name}_delete", ->
           expect(browser.location.pathname).toEqual("/presets")
           expect(browser.html("table#presets tbody tr")).toNotMatch(new RegExp(test_preset_name))
-          jasmine.asyncSpecDone()
+          # jasmine.asyncSpecDone()
         )
       )
 
