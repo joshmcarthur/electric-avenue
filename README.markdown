@@ -1,6 +1,8 @@
 Electric Avenue
 ====
 
+[![Build Status](https://travis-ci.org/joshmcarthur/electric-avenue.png)](https://travis-ci.org/joshmcarthur/electric-avenue)
+
 > Electric Avenue is a queue-based encoding web service that uses [ffmpeg](http://ffmpeg.org) to transcode and manipulate a range of video and audio formats. 
 
 ---
