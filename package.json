@@ -10,22 +10,20 @@
     , "stylus": "*"
     , "nib": "*"
     , "markdown": "*"
-    , "jasmine-node": "*"
-    , "jsdom": "*"
     , "mime": "*"
-    , "zombie": "*"
     , "kue": "*"
     , "socket.io": "*"
     , "fluent-ffmpeg": "git://github.com/joshmcarthur/node-fluent-ffmpeg.git#edfdb9d3d039651502ee71623557e29236b5fc0e"
     , "express-resource": "*"
   }
   , "scripts": {
-    "test": "mocha"
-    , "start": "node server.js"
+    "test": "cake spec",
+    "start": "node server.js"
   }
   , "devDependencies": {
-    "mocha": "*"
-    , "should": "*"
+    "jasmine-node": "*",
+    "jsdom": "*",
+    "zombie": "*"
   }
   , "engine": "node ~> 0.6.x"
 }
