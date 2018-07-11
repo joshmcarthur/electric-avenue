@@ -45,7 +45,7 @@ You can then run `node server.js` and browse to [http://localhost:4000](http://l
 
 #### Running Tests
 
-Tests are written using [Jasmine](http://pivotal.github.com/jasmine/) and [Zombie.js](http://zombie.labnotes.org/), and can be run in one of two ways:
+Tests are written using [Jasmine](https://jasmine.github.io/) and [Zombie.js](http://zombie.labnotes.org/), and can be run in one of two ways:
 
 * `cake spec` - will run the tests, but won't output as verbosely
 * `jasmine-node --coffee spec/` will run the tests, and also output a few more error messages, and the like. 
